@@ -29,7 +29,7 @@ tools: Iterable[ChatCompletionToolParam] = [
                 "properties": {
                     "command": {
                         "type": "string",
-                        "description": "The bash command to execute."
+                        "description": "The bash command to execute. Do not call any interactive commands here."
                     },
                     "reason": {
                         "type": "string",
@@ -94,8 +94,7 @@ while True:
         for call in choice.message.tool_calls:
             args: dict = json.loads(call.function.arguments)
             cmd = args["command"]
-            reason = args["reason"]
             stdout, stderr = run_command(cmd)
-            cmd_result = CommandResult(cmd = cmd, stdout = stdout, stderr = stderr, reason = reason)
+            cmd_result = CommandResult(cmd = cmd, stdout = stdout, stderr = stderr, reason = args["reason"])
             commands_called.append(cmd_result)
             cmd_results.append(cmd_result)
