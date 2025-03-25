@@ -7,6 +7,9 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Get some standard tooling that previous iterations have consistently installed themselves
+RUN apt-get update && apt-get install -y curl dnsutils
+
 # Copy the rest of your application code
 COPY . .
 
