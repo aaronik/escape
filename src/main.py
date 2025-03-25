@@ -68,9 +68,8 @@ def format_content(cmd_result: CommandResult) -> str:
     return "command: " + cmd_result.cmd + ", stdout: " + cmd_result.stdout + ", stderr: " + cmd_result.stderr
 
 while True:
-    print("\n\n\nLoop\n")
+    print("\n\n\nCommands run so far:\n")
     pprint.pp(commands_called, indent=4, width=80, compact=False)
-    print("\nmessages: ", messages)
 
     # Include all prior command results into the chat, then remove them so they're not added twice
     for cmd_result in cmd_results:
@@ -93,8 +92,7 @@ while True:
             continue
         for call in choice.message.tool_calls:
             args: dict = json.loads(call.function.arguments)
-            cmd = args["command"]
-            stdout, stderr = run_command(cmd)
-            cmd_result = CommandResult(cmd = cmd, stdout = stdout, stderr = stderr, reason = args["reason"])
+            stdout, stderr = run_command(args["command"])
+            cmd_result = CommandResult(cmd = args["command"], stdout = stdout, stderr = stderr, reason = args["reason"])
             commands_called.append(cmd_result)
             cmd_results.append(cmd_result)
