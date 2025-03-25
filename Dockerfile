@@ -16,6 +16,8 @@ COPY . .
 # Transfer the OPENAI_API_KEY environment variable
 ARG OPENAI_API_KEY
 ENV OPENAI_API_KEY=${OPENAI_API_KEY}
+ARG USER_NAME
+ENV USER_NAME=${USER_NAME}
 
 # Set the entry point to your application
 CMD ["python", "src/main.py"]
